@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">guess</string>
+    <string name="guess_a_number_1_10">Guess a number(1-10)</string>
+    <string name="enter_your_number_here">Enter your number here</string>
+    <string name="guess">GUESS</string>
+    <string name="bigger">Bigger!</string>
+    <string name="smaller">Smaller!</string>
+    <string name="godlike">God like!</string>
+    <string name="goodjob">Good job!</string>
+</resources>
