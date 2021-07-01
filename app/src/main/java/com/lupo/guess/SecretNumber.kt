@@ -1,5 +1,6 @@
 package com.lupo.guess
 
+import android.util.Log
 import kotlin.random.Random
 
 class SecretNumber {
@@ -7,6 +8,13 @@ class SecretNumber {
     private var secret = Random.nextInt(10)+1;
 
     private var count = 0
+
+    private val TAG = "Kevin_SecretNumber"
+
+    constructor(){
+        Log.d(TAG, "The secret number is: " + secret.toString())
+    }
+
 
     private fun get():Int{
 
