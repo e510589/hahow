@@ -1,10 +1,15 @@
 package com.lupo.guess
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AlertDialog
 import com.lupo.guess.databinding.ActivityGuessBinding
 
@@ -16,7 +21,7 @@ class GuessActivity : AppCompatActivity() {
 
     private var secret = 0
 
-    private val TAG = "Keivn_GuessActivity"
+    private val TAG = "Kevin_GuessActivity"
 
     private val PASS = 0
 
@@ -26,6 +31,8 @@ class GuessActivity : AppCompatActivity() {
 
     private val REFRESH = 3;
 
+    private lateinit var myActivityLuncher:ActivityResultLauncher<Int>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityGuessBinding.inflate(layoutInflater)
@@ -33,6 +40,9 @@ class GuessActivity : AppCompatActivity() {
         secretNumber = SecretNumber()
         secret = secretNumber.getSecret()
         var msg = ""
+        myActivityLuncher = registerForActivityResult(GuessActivityResultContract()){
+            refresh()
+        }
 
         viewBinding.btnGuess.setOnClickListener {
             var type = -1
@@ -48,7 +58,7 @@ class GuessActivity : AppCompatActivity() {
                     type = NOT_PASS
                 }else if (guessResult == 0){
                     if (secretNumber.getCount() <= 3){
-                        msg = getString(R.string.godlike)
+                        msg = getString(R.string.godlike)+secretNumber.getSecret().toString()
                         type = PASS
                     }else{
                         msg = getString(R.string.goodjob)
@@ -81,20 +91,26 @@ class GuessActivity : AppCompatActivity() {
                 when(type){
 
                     PASS ->{
-                        val intent = Intent(this@GuessActivity,RecordActivity::class.java)
-                        intent.putExtra("COUNT",secretNumber.getCount())
-                        startActivity(intent)
+//                        val intent = Intent(this@GuessActivity,RecordActivity::class.java)
+//                        intent.putExtra("COUNT",secretNumber.getCount())
+//                        startActivity(intent)
+
+                        myActivityLuncher.launch(secretNumber.getCount())
+
                     }
 
                     NOT_PASS->{
+                        viewBinding.tieGuess.setText("")
                         dialog?.dismiss()
                     }
 
                     NOT_VALID->{
+                        viewBinding.tieGuess.setText("")
                         dialog?.cancel()
                     }
 
                     REFRESH->{
+                        viewBinding.tieGuess.setText("")
                         refresh()
                         dialog?.cancel()
                     }
@@ -109,11 +125,23 @@ class GuessActivity : AppCompatActivity() {
     fun refresh(){
         secretNumber = SecretNumber()
         secret = secretNumber.getSecret()
-        viewBinding.tvCount.setText("0")
+        viewBinding.tvCount.setText("")
     }
 
+}
 
+class GuessActivityResultContract:ActivityResultContract<Int,String>(){
+    override fun createIntent(context: Context, input: Int?): Intent {
+        var intent = Intent(context,RecordActivity::class.java)
+        intent.putExtra("COUNT",input)
+        return intent
+    }
 
+    override fun parseResult(resultCode: Int, intent: Intent?): String? {
+        val data = intent?.getStringExtra("RESULT")
+        return if(resultCode == Activity.RESULT_OK && data != null) data
+        else null
+    }
 
 
 }

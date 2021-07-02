@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">猜數字</string>
+    <string name="guess_a_number_1_10" translatable="false">猜個數字吧</string>
+    <string name="enter_your_number_here" translatable="false">在這裡輸入你的數字</string>
+    <string name="guess" translatable="false">猜猜看</string>
+    <string name="bigger" translatable="false">再大一點!!</string>
+    <string name="smaller">小...小一點</string>
+    <string name="godlike">超神的數字就是</string>
+    <string name="goodjob">讚喔</string>
+    <string name="pleaseEnterANumber">請輸入數字</string>
+    <string name="OK">OK</string>
+    <string name="tell_us_your_name">你叫做?</string>
+    <string name="well_done">恭喜!!</string>
+    <string name="your_record">你的紀錄:</string>
+    <string name="save">儲存</string>
+    <string name="yournameplease">所以說 那個名字呢?</string>
+</resources>
