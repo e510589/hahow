@@ -40,20 +40,3 @@ class SecretNumber {
     }
 
 }
-
-fun main(){
-
-    val secretNumber = SecretNumber()
-    println(secretNumber.getSecret())
-    for(n in 1 .. 10){
-        var result = secretNumber.validate(n)
-        println(result)
-        if (result ==0){
-            break
-        }
-    }
-
-    println(secretNumber.cal(5,6){
-        n1,n2 -> 60
-    })
-}

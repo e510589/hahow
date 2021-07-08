@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AlertDialog
@@ -46,6 +47,7 @@ class GuessActivity : AppCompatActivity() {
 
         viewBinding.btnGuess.setOnClickListener {
             var type = -1
+            hideKeyBoard()
             if(viewBinding.tieGuess.text.toString() != ""){
                 val guess = viewBinding.tieGuess.text.toString().toInt()
                 val guessResult = secretNumber.validate(guess)
@@ -79,6 +81,7 @@ class GuessActivity : AppCompatActivity() {
             }
 
         })
+        viewBinding.tvCount.setText("0")
     }
 
     fun showDialog(type:Int,msg:String){
@@ -125,8 +128,22 @@ class GuessActivity : AppCompatActivity() {
     fun refresh(){
         secretNumber = SecretNumber()
         secret = secretNumber.getSecret()
-        viewBinding.tvCount.setText("")
+        viewBinding.tvCount.setText("0")
     }
+
+
+    fun getSecretNumber():Int{
+        return secret
+    }
+
+    fun getCount():Int{
+        return secretNumber.getCount()
+    }
+    private fun hideKeyBoard(){
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+    }
+
 
 }
 
